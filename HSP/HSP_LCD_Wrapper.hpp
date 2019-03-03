@@ -3,6 +3,7 @@
 #include <LiquidCrystal_I2C.h>
 #include <Arduino.h>
 #include "HSP_defines.h"
+
 class HSP_LCD_Wrapper: public LiquidCrystal_I2C{
 	public: 
 		HSP_LCD_Wrapper(int n):LiquidCrystal_I2C(n){};
@@ -56,14 +57,21 @@ class HSP_LCD_Wrapper: public LiquidCrystal_I2C{
 		}
 		
 		void show_pswd(const char *pswd){
-			reset();
-			setCursor(0, 0); print("PASSWORD:");
+			reset(); print("PASSWORD:");
 			setCursor(0, 1); print(pswd);
 		}
 		
+		void show_reading(int val){
+			reset(); print("HES Reading:");
+			setCursor(0, 12); print(val);
+		}
+		
+		void show_triggered(void){
+			reset(); print("TRIGGERED!!!");
+		}
+		
 		void Welcome_Home(void){
-			reset();
-			setCursor(0, 0); print(" Welcome Home ! ");
+			reset(); print(" Welcome Home ! ");
 			delay(2500);
 			reset();
 			print("Stand By.       ");

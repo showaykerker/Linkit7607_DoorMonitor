@@ -8,10 +8,13 @@
 
 // Wait for how many seconds after launching the system
 #define WAIT_FOR_GO_OUT 1
-
-/* ========== Advanced Settings ========== */
 // Wait for how many seconds to turn off lcd
 #define TURN_OFF_SEC 5 
+
+/* ========== Advanced Settings ========== */
+// Threshold of Hall Effect Sensor
+#define HALL_UPPER_THRESH 700
+#define HALL_LOWER_THRESH 300
 
 
 /* ========== Code Definitions ========== */
@@ -20,7 +23,7 @@
 #define COUNT_FREQ 10 // Counting Frequency of t
 // Pin Definitions
 #define Hall 6
-#define Buzz 14
+#define Buzzer 14
 #define SCL 8
 #define SDA 9
 #define LED 7

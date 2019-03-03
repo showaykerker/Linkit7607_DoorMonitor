@@ -18,6 +18,7 @@ unsigned long int last_press_t = 0;
 bool TurnOn = false;
 LEDIND LEDI = NONE;
 bool LED_ON = false;
+bool TRIGGERED = false;
 
 void setup() {
 	Serial.begin(9600);
@@ -27,8 +28,9 @@ void setup() {
 	timer0.start( int(1000/COUNT_FREQ), LTIMER_REPEAT_MODE, _callback0, NULL );
 	
 	pinMode(LED, OUTPUT); digitalWrite(LED, HIGH);
-	pinMode(Buzz, OUTPUT); 
+	pinMode(Buzzer, OUTPUT); 
 	pinMode(Hall, INPUT);
+	
 	lcd.start();
 	lcd.setBacklight(255);
 	LEDI = BLINK;
@@ -44,7 +46,7 @@ void loop() {
 	last_press_t = t;
 	String enter_pswd = "";
 	while(true){
-		// if over TURN_OFF_SEC
+		// if over TURN_OFF_SEC then turn lcd off
 		if ( (t - last_press_t)/COUNT_FREQ >= TURN_OFF_SEC){
 			LEDI = STAND_BY;
 			lcd.noBacklight();
@@ -65,33 +67,50 @@ void loop() {
 			}
 		}
 		else{ // Turn On
-			char key = kp.getKey();
-			if(key){
+			
+			int HES = analogRead(Hall); // Hall Effect Sensor Reading.
+			if ((HES<HALL_LOWER_THRESH or HES>HALL_UPPER_THRESH) and TRIGGERED == false){ 
+				// Trigger Alert Event
+				lcd.setBacklight(255);
+				TRIGGERED = true;
+				client.trig(1);
 				LEDI = FAST_BLINK;
-				lcd.setBacklight(128);
-				if (key == 'C'){ // Cancel
-					enter_pswd = "";
-					lcd.show_pswd(enter_pswd.c_str());
-				}
-				else if (key == 'D'){ // Enter
-					if (enter_pswd == ENTER_PSWD){
-						LEDI = BLINK;
-						lcd.Welcome_Home();
-						TurnOn = !TurnOn;
-					}
-					else{
-						lcd.Wrong_PSWD();
-						enter_pswd = "";
-					}
-				}
-				else{
-					enter_pswd += key;
-					if (enter_pswd.length()>16) enter_pswd = "";
-					lcd.show_pswd(enter_pswd.c_str());
-				}
+				lcd.show_triggered();
 				last_press_t = t;
 			}
-
+			else{
+				char key = kp.getKey();
+				if(key){
+					if (TRIGGERED == false) LEDI = FAST_BLINK;
+					lcd.setBacklight(128);
+					if (key == 'C'){ // Cancel
+						enter_pswd = "";
+						lcd.show_pswd(enter_pswd.c_str());
+					}
+					else if (key == 'D'){ // Enter
+						if (enter_pswd == ENTER_PSWD){
+							LEDI = BLINK;
+							lcd.Welcome_Home();
+							TurnOn = !TurnOn;
+							TRIGGERED = false;
+						}
+						else{
+							lcd.Wrong_PSWD();
+							enter_pswd = "";
+						}
+					}
+					else{
+						enter_pswd += key;
+						if (enter_pswd.length()>16) enter_pswd = "";
+						lcd.show_pswd(enter_pswd.c_str());
+					}
+					last_press_t = t;
+				}
+			}
+			if (TRIGGERED){
+				last_press_t = t;
+				lcd.show_triggered();
+			}
 		}
 	}
 }

@@ -10,7 +10,7 @@ class HSP_WiFi{
 	public:
 		HSP_WiFi(char* ssid_, char* pswd_);
 		void connect_WiFi(void);
-		void trig(int type);
+		void trig(int type); // type0: Start, type1: Alert
 		WiFiClient client;
 	private:
 		void printWiFiStatus(void);
