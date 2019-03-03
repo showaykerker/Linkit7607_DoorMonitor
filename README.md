@@ -17,7 +17,7 @@ It should be something looks like the following,
 
 #define WIFI_SSID "[wifi_ssid]"
 #define WIFI_PSWD "[wifi_password]"
-#define ENTER_PSWD "[password]" // for opening the door without sending a alert
+#define ENTER_PSWD "[password]" // for opening the door without sending an alert
 
 #define TRIGGER_START "GET https://maker.ifttt.com/trigger/[start_event_name]/with/key/[key]"
 #define TRIGGER_ALERT "GET https://maker.ifttt.com/trigger/[alert_event_name]/with/key/[key]"
