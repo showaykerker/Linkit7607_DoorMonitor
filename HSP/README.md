@@ -5,6 +5,8 @@ TODO
 
 ``` C++
 
+// HSP_defines.h
+
 // Wait for how many seconds after launching the system
 #define WAIT_FOR_GO_OUT 1
 // Wait for how many seconds to turn off lcd
@@ -18,8 +20,7 @@ TODO
 
 
 /* ========== Code Definitions ========== */
-// DONT TOUCH ANY OF THIS 
-// IF YOU DONT KNOW WHAT YOU'RE DOING
+// DONT TOUCH ANY OF THESE IF YOU DONT KNOW WHAT IT IS.
 #define COUNT_FREQ 10 // Counting Frequency of t
 // Pin Definitions
 #define Hall 6
