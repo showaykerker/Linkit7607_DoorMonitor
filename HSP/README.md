@@ -1,11 +1,9 @@
-#ifndef HSP_DEFINES_H
-#define HSP_DEFINES_H
+# HSP.ino
 
+## Settings
+TODO
 
-/* ========== User Settings ========== */
-#include "HSP_CallsAndPswd.h"
-// Define WIFI_SSID, WIFI_PSWD, ENTER_PSWD, TRIGGER_START, TRIGGER_ALERT in it.
-
+``` C++
 
 // Wait for how many seconds after launching the system
 #define WAIT_FOR_GO_OUT 1
@@ -41,4 +39,4 @@ enum LEDIND{
 	ALERT = 5,
 };
 
-#endif
+```
