@@ -26,3 +26,7 @@ It should be something looks like the following,
 
 ```
 
+## TODO
+* Monitoring the reading of Hall Effect Sensor
+* Buzzer Part
+* Camera Event (?)
