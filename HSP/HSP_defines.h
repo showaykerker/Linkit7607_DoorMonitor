@@ -19,16 +19,19 @@
 #define HALL_LOWER_THRESH 300
 
 
+
 /* ========== Code Definitions ========== */
 // DONT TOUCH ANY OF THIS 
 // IF YOU DONT KNOW WHAT YOU'RE DOING
 #define COUNT_FREQ 10 // Counting Frequency of t
 // Pin Definitions
 #define Hall 6
-#define Buzzer 14
 #define SCL 8
 #define SDA 9
-#define LED 7
+#define Buzzer 15
+#define LED_Yellow 16
+#define LED_Orange 17
+
 
 enum LEDIND{
 	// Regular Blink
