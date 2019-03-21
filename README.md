@@ -29,10 +29,10 @@ It should be something looks like the following,
 ## Hardware 
 TODO
 
-## Libraries
-TODO
+## Extra Libraries
+* [Keypad](https://playground.arduino.cc/Code/Keypad/)
 
 ## TODO
-* Buzzer Part
-* Camera Event (?)
+* Camera Event
+* ~~Buzzer Part (done @ 190322)~~
 
