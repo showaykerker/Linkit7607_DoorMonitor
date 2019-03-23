@@ -15,13 +15,13 @@ class HSP_KeyPad{
 	private:
 		Keypad myKeypad = Keypad(makeKeymap(keymap), rowPins, colPins, KEY_ROWS, KEY_COLS);
 		char keymap[KEY_ROWS][KEY_COLS] = {
-			{'1', '2', '3', 'A'},
-			{'4', '5', '6', 'B'},
-			{'7', '8', '9', 'C'},
-			{'*', '0', '#', 'D'}
+			{'1', '2', '3'},
+			{'4', '5', '6'},
+			{'7', '8', '9'},
+			{'*', '0', '#'}
 		};
-		byte colPins[KEY_COLS] = {5, 4, 3, 2};
-		byte rowPins[KEY_ROWS] = {13, 12, 11, 10};
+		byte colPins[KEY_COLS] = {3, 4, 5};
+		byte rowPins[KEY_ROWS] = {10, 11, 12, 13};
 };
 
 

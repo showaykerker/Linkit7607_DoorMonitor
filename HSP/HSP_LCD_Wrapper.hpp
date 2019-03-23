@@ -7,25 +7,26 @@
 class HSP_LCD_Wrapper: public LiquidCrystal_I2C{
 	public: 
 		HSP_LCD_Wrapper(int n):LiquidCrystal_I2C(n){};
-		void start(void){
+		void start(int block_for){
+			setBacklight(255);
 			begin(16,2);
 			reset();
-			print("          Hello!"); 
-			_scroll_left(10, 400, 100);
+			print("Hello!"); 
+			delay(block_for);
 			reset(); 
 			print("Connecting ");
 			setCursor(0, 1); 
 			print("        to WiFi.");
 		}
 
-		void wifi_connected(void){
+		void wifi_connected(int block_for){
 			reset(); 
 			print("WiFi Connected. ");
 			setCursor(0, 1); 
 			print("ssid: ");
 			setCursor(6, 1); 
 			print(WIFI_SSID);
-			delay(2500);
+			delay(block_for);
 			reset();
 			print("Stand By.       ");
 			

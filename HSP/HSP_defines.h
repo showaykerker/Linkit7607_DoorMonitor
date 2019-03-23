@@ -1,7 +1,6 @@
 #ifndef HSP_DEFINES_H
 #define HSP_DEFINES_H
 
-
 /* ========== User Settings ========== */
 #include "HSP_CallsAndPswd.h"
 // Define WIFI_SSID, WIFI_PSWD, ENTER_PSWD, TRIGGER_START, TRIGGER_ALERT in it.
@@ -34,12 +33,12 @@
 
 
 enum LEDIND{
-	// Regular Blink
+	// Blink Pattern 1 (Regular Blink)
 	NONE = 0,
 	BLINK = 8,
 	FAST_BLINK = 3,
 	SLOW_BLINK = 16,
-	// 
+	// Blink Pattern 2
 	STAND_BY = 50,
 	ALERT = 5,
 };

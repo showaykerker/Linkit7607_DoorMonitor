@@ -30,7 +30,7 @@ It should be something looks like the following,
 TODO
 
 ## Extra Libraries
-* [Keypad](https://playground.arduino.cc/Code/Keypad/)
+* [Keypad Library for Arduino](https://playground.arduino.cc/Code/Keypad/)
 
 ## TODO
 * Camera Event

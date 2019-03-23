@@ -39,12 +39,12 @@ void setup() {
 	pinMode(LED_Orange, OUTPUT); digitalWrite(LED_Orange, HIGH);
 	pinMode(Hall, INPUT);
 	
-	lcd.start();
-	lcd.setBacklight(255);
+	bz.start(); // Block for 1500 ms
+	lcd.start(1000); // Block for 1000 ms
 	LEDI = BLINK;
 	client.connect_WiFi();
 	//client.trig(TRIG_START);
-	lcd.wifi_connected();
+	lcd.wifi_connected(2500);
 
 }
 
@@ -66,7 +66,7 @@ void loop() {
 				bz.beep(key); // Block for 50ms (*5 for special key)
 				LEDI = BLINK;
 				lcd.setBacklight(128);
-				if (key=='*'){
+				if (key=='#'){
 					lcd.start_monitor();
 					TurnOn = !TurnOn;
 					start_t = t;
@@ -93,28 +93,26 @@ void loop() {
 					bz.beep(key); // Block for 50 ms (*5 for special key)
 					if (TRIGGERED == false) LEDI = FAST_BLINK;
 					lcd.setBacklight(128);
-					if (key == 'C'){ // Cancel
+					if (key == '*'){ // Cancel
 						enter_pswd = "";
 						lcd.show_pswd(enter_pswd.c_str());
 					}
-					else if (key == 'D'){ // Enter
-						if (enter_pswd == ENTER_PSWD){
-							LEDI = BLINK;
-							lcd.Welcome_Home();
-							TurnOn = !TurnOn;
-							TRIGGERED = false;
-							bz.pass();
-						}
-						else{
-							lcd.Wrong_PSWD();
-							enter_pswd = "";
-							bz.wrong();
-						}
-					}
 					else{
 						enter_pswd += key;
-						if (enter_pswd.length()>16) enter_pswd = "";
 						lcd.show_pswd(enter_pswd.c_str());
+						if (enter_pswd.length()>16){
+							lcd.Wrong_PSWD();
+							enter_pswd = "";
+							bz.wrong(); // Block for 2666 ms
+						}
+						else if(enter_pswd == ENTER_PSWD){
+							LEDI = BLINK;
+							lcd.Welcome_Home(); // Block for 3500 ms
+							TurnOn = !TurnOn;
+							TRIGGERED = false;
+							bz.pass(); // Block for 1125 ms
+						}
+
 					}
 					last_press_t = t;
 				}
@@ -122,7 +120,7 @@ void loop() {
 			if (TRIGGERED){
 				last_press_t = t;
 				lcd.show_triggered();
-				bz.Alert(t);
+				bz.Alert(t); // No Block
 			}
 		}
 	}
