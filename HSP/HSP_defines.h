@@ -5,6 +5,8 @@
 #include "HSP_CallsAndPswd.h"
 // Define WIFI_SSID, WIFI_PSWD, ENTER_PSWD, TRIGGER_START, TRIGGER_ALERT in it.
 
+// Sent GET request to server if this is set to be 1
+#define LAUNCH_ALERT 0
 
 // Wait for how many seconds after launching the system
 #define WAIT_FOR_GO_OUT 1
@@ -14,9 +16,8 @@
 
 /* ========== Advanced Settings ========== */
 // Threshold of Hall Effect Sensor
-#define HALL_UPPER_THRESH 700
-#define HALL_LOWER_THRESH 300
-
+#define HALL_UPPER_THRESH 2000
+#define HALL_LOWER_THRESH 0
 
 
 /* ========== Code Definitions ========== */
@@ -24,7 +25,7 @@
 // IF YOU DONT KNOW WHAT YOU'RE DOING
 #define COUNT_FREQ 10 // Counting Frequency of t
 // Pin Definitions
-#define Hall 6
+#define Hall 14
 #define SCL 8
 #define SDA 9
 #define Buzzer 15
@@ -40,7 +41,7 @@ enum LEDIND{
 	SLOW_BLINK = 16,
 	// Blink Pattern 2
 	STAND_BY = 50,
-	ALERT = 5,
+	ALERT = 2,
 };
 
 #endif

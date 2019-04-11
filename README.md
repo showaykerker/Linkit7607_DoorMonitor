@@ -33,6 +33,9 @@ TODO
 * [Keypad Library for Arduino](https://playground.arduino.cc/Code/Keypad/)
 
 ## TODO
-* Camera Event
-* ~~Buzzer Part (done @ 190322)~~
+* Check function for Hall Effect Sensor Readings.
+* Can Do More Buzzer Inticator Music
+* Camera Event for RPi.
+* ~~Modify through a RA. (requires hardware modifications.)~~ (del @ 190412)
+* ~~Buzzer Part~~ (done @ 190322)
 

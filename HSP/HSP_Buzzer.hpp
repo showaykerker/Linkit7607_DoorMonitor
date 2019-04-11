@@ -22,14 +22,19 @@ class HSP_Buzzer{
 			t_times = 1 / COUNT_FREQ;
 		}
 		
+		
 		void beep(char type_){
 			int f, delay_;
 			if (type_ == '*' or type_ == '#'){
-				f = NOTE_C7; 
-				delay_ = delay_time * 5;
+				f = NOTE_DS8; 
+				delay_ = delay_time*5;
+			}
+			else if (type_=='x'){
+				f = NOTE_C9;
+				delay_ = delay_time;
 			}
 			else{
-				f = NOTE_G7; // Normal
+				f = NOTE_C8; // Normal
 				delay_ = delay_time;
 			}
 			tone(pin, f);
@@ -38,61 +43,65 @@ class HSP_Buzzer{
 		}
 		
 		void start(void){
-			tone(pin, NOTE_G2); delay(tempo_d(120, 8, 1));
+			tone(pin, NOTE_G6); delay(tempo_d(120, 8, 1));
 			noTone(pin); delay(10);
-			tone(pin, NOTE_F2); delay(tempo_d(120, 8, 1));
+			tone(pin, NOTE_F6); delay(tempo_d(120, 8, 1));
 			noTone(pin); delay(10);
-			tone(pin, NOTE_E2); delay(tempo_d(120, 8, 1));
+			tone(pin, NOTE_E6); delay(tempo_d(120, 8, 1));
 			noTone(pin); delay(10);
-			tone(pin, NOTE_D2); delay(tempo_d(120, 8, 1));
+			tone(pin, NOTE_D6); delay(tempo_d(120, 8, 1));
 			noTone(pin); delay(10);
-			tone(pin, NOTE_C2); delay(tempo_d(120, 8, 1));
+			tone(pin, NOTE_C6); delay(tempo_d(120, 4, 1));
 			noTone(pin); delay(10);
-			tone(pin, NOTE_C3); delay(tempo_d(120, 8, 1));
+			tone(pin, NOTE_C7); delay(tempo_d(120, 8, 1));
 			noTone(pin); delay(10);
+			this->beep('x');
+			this->beep('*');
+			
 		}
 		
 		void Alert(unsigned long int t){
 			int hint = t%12;
-			if (t<3) tone(pin, NOTE_G4);
-			else if (t<6) tone(pin, NOTE_FS4);
-			else if (t<9) tone(pin, NOTE_F4);
-			else if (t<12) tone(pin, NOTE_FS4);
+			if (hint<3) tone(pin, NOTE_G6);
+			else if (hint<6) tone(pin, NOTE_FS6);
+			else if (hint<9) tone(pin, NOTE_F6);
+			else if (hint<12) tone(pin, NOTE_FS6);
 		}
 		
 		void pass(void){
-			tone(pin, NOTE_C2); delay(tempo_d(120, 8, 1));
+			tone(pin, NOTE_C6); delay(tempo_d(120, 8, 1));
 			noTone(pin); delay(10);
-			tone(pin, NOTE_C2); delay(tempo_d(120, 8, 1));
+			tone(pin, NOTE_C6); delay(tempo_d(120, 8, 1));
 			noTone(pin); delay(10);
-			tone(pin, NOTE_C2); delay(tempo_d(120, 16, 1));
+			tone(pin, NOTE_C6); delay(tempo_d(120, 16, 1));
 			noTone(pin); delay(10);
-			tone(pin, NOTE_E2); delay(tempo_d(120, 16, 1));
+			tone(pin, NOTE_E6); delay(tempo_d(120, 16, 1));
 			noTone(pin); delay(10);
-			tone(pin, NOTE_G2); delay(tempo_d(120, 16, 1));
+			tone(pin, NOTE_G6); delay(tempo_d(120, 16, 1));
 			noTone(pin); delay(10);
-			tone(pin, NOTE_C3); delay(tempo_d(120, 8, 1));
+			tone(pin, NOTE_C7); delay(tempo_d(120, 8, 1));
 			noTone(pin); delay(10);
+			this->beep('x');
 		}
 		
 		void wrong(void){
-			tone(pin, NOTE_A3); delay(tempo_d(180, 4, 1));
+			tone(pin, NOTE_A6); delay(tempo_d(180, 4, 1));
 			noTone(pin); delay(10);
-			tone(pin, NOTE_D4); delay( tempo_d(180, 4, 3.5) );
+			tone(pin, NOTE_D7); delay( tempo_d(180, 4, 3.5) );
 			noTone(pin); delay(10);
-			tone(pin, NOTE_CS4); delay( tempo_d(180, 8, 1) );
+			tone(pin, NOTE_CS7); delay( tempo_d(180, 8, 1) );
 			noTone(pin); delay(10);
-			tone(pin, NOTE_C4); delay( tempo_d(180, 8, 1) );
+			tone(pin, NOTE_C7); delay( tempo_d(180, 8, 1) );
 			noTone(pin); delay(10);
-			tone(pin, NOTE_B3); delay( tempo_d(180, 8, 1) );
+			tone(pin, NOTE_B7); delay( tempo_d(180, 8, 1) );
 			noTone(pin); delay(10);
-			tone(pin, NOTE_AS4); delay( tempo_d(180, 8, 1) );
+			tone(pin, NOTE_AS7); delay( tempo_d(180, 8, 1) );
 			noTone(pin); delay(10);
-			tone(pin, NOTE_A4); delay( tempo_d(180, 8, 1) );
+			tone(pin, NOTE_A7); delay( tempo_d(180, 8, 1) );
 			noTone(pin); delay(10);
-			tone(pin, NOTE_GS4); delay( tempo_d(180, 8, 2) );
+			tone(pin, NOTE_GS7); delay( tempo_d(180, 8, 2) );
 			noTone(pin); delay(10);
-			
+			this->beep('x');
 		}
 		
 		void stop(void){

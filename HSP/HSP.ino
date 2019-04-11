@@ -16,7 +16,7 @@ LTimer timer0(LTIMER_0);
 
 // Timer
 unsigned long int t = 0; // 0 ~ 4294697295/COUNT_FREQ second
-unsigned long int start_t;
+unsigned long int start_t; 
 unsigned long int last_press_t = 0;
 
 // For LED
@@ -39,11 +39,11 @@ void setup() {
 	pinMode(LED_Orange, OUTPUT); digitalWrite(LED_Orange, HIGH);
 	pinMode(Hall, INPUT);
 	
-	bz.start(); // Block for 1500 ms
+	bz.start(); // Block for 3.5 quarter note, speed 120
 	lcd.start(1000); // Block for 1000 ms
 	LEDI = BLINK;
 	client.connect_WiFi();
-	//client.trig(TRIG_START);
+	if(LAUNCH_ALERT) client.trig(TRIG_START);
 	lcd.wifi_connected(2500);
 
 }
@@ -62,6 +62,7 @@ void loop() {
 		}
 		if (!TurnOn){
 			char key = kp.getKey();
+      
 			if (key){
 				bz.beep(key); // Block for 50ms (*5 for special key)
 				LEDI = BLINK;
@@ -82,7 +83,7 @@ void loop() {
 				// Trigger Alert Event
 				lcd.setBacklight(255);
 				TRIGGERED = true;
-				client.trig(1);
+				if(LAUNCH_ALERT) client.trig(1);
 				LEDI = FAST_BLINK;
 				lcd.show_triggered();
 				last_press_t = t;
@@ -101,16 +102,17 @@ void loop() {
 						enter_pswd += key;
 						lcd.show_pswd(enter_pswd.c_str());
 						if (enter_pswd.length()>16){
+              bz.wrong(); // Block for 8 quarter note, speed 180
 							lcd.Wrong_PSWD();
 							enter_pswd = "";
-							bz.wrong(); // Block for 2666 ms
 						}
 						else if(enter_pswd == ENTER_PSWD){
+              enter_pswd = "";
 							LEDI = BLINK;
+              bz.pass(); // Block for 2.25 quarter note, speed 120
 							lcd.Welcome_Home(); // Block for 3500 ms
 							TurnOn = !TurnOn;
 							TRIGGERED = false;
-							bz.pass(); // Block for 1125 ms
 						}
 
 					}
@@ -119,8 +121,10 @@ void loop() {
 			}
 			if (TRIGGERED){
 				last_press_t = t;
-				lcd.show_triggered();
+        LEDI = ALERT;
+        if (t % 25) lcd.show_triggered();
 				bz.Alert(t); // No Block
+        delay(20);
 			}
 		}
 	}
@@ -128,6 +132,7 @@ void loop() {
 
 void _callback0(void *usr_data){
 	t++;
+  
 	if (LEDI == NONE);
 	else{
 		float tick = float(t)*10/float(COUNT_FREQ);
