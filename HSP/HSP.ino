@@ -122,7 +122,7 @@ void loop() {
 			if (TRIGGERED){
 				last_press_t = t;
         LEDI = ALERT;
-        if (t % 25) lcd.show_triggered();
+        if (t % 25 == 0) lcd.show_triggered();
 				bz.Alert(t); // No Block
         delay(20);
 			}

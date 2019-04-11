@@ -5,8 +5,8 @@
 #include "HSP_CallsAndPswd.h"
 // Define WIFI_SSID, WIFI_PSWD, ENTER_PSWD, TRIGGER_START, TRIGGER_ALERT in it.
 
-// Sent GET request to server if this is set to be 1
-#define LAUNCH_ALERT 0
+// WONT sent GET request to server if this is set to 0
+#define LAUNCH_ALERT 1
 
 // Wait for how many seconds after launching the system
 #define WAIT_FOR_GO_OUT 1
