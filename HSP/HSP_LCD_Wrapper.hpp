@@ -54,11 +54,18 @@ class HSP_LCD_Wrapper: public LiquidCrystal_I2C{
 				delay(1000);
 				reset();
 			}
+			this->show_word(String("Start Monitor!").c_str());
 		}
 		
 		void standby(void){
 			reset();
 			print("Stand By.       ");
+		}
+		
+		void show_word(const char *line1, const char *line2, int delay_time){
+			reset(); print(line1);
+			setCursor(0, 1); print(line2);
+			delay(delay_time);
 		}
 		
 		void show_word(const char *line1){
@@ -73,12 +80,6 @@ class HSP_LCD_Wrapper: public LiquidCrystal_I2C{
 			this->show_word(line1, line2, 0);
 			//reset(); print(line1);
 			//setCursor(0, 1); print(line2);
-		}
-		
-		void show_word(const char *line1, const char *line2, int delay_time){
-			reset(); print(line1);
-			setCursor(0, 1); print(line2);
-			delay(delay_time);
 		}
 		
 		void show_reading(int val){

@@ -47,7 +47,7 @@ void setup() {
 	lcd.start(1000); // Block for 1000 ms
 	LEDI = BLINK;
 	client.connect_WiFi();
-	if(LAUNCH_ALERT) client.trig(TRIG_START);
+	if(ENABLE_ALERT) client.trig(TRIG_START);
 	lcd.wifi_connected(2500);
 
 }
@@ -83,6 +83,7 @@ void HallThreshModifyMode(){
 		}
 		else if (mode == 2){ // Blink for HLT
 			unsigned short int v = (last_enter_word.toInt()>0)?(last_enter_word.toInt()):(HUT);
+			v = (v>9999) ? 9999 : v;
 			if (last_enter_word!="") HUT = v;
 			if (t%20==0) lcd.show_word( String( "U: " + String(HUT) ).c_str(), String( "L: " + String(HLT) ).c_str() );
 			else if (t%20==10) lcd.show_word( String( "U: " + String(HUT) ).c_str(), String( "L: " + String(HLT) + " <- " ).c_str() );
@@ -99,12 +100,16 @@ void HallThreshModifyMode(){
 		}
 		if (key){
 			bz.beep(key);
-			if (key == '#'){
+			if (key == '#'){ // Enter
 				mode++;
 				last_enter_word = enter_word;
 				enter_word = "";
 			}
-			else if (key=='*') enter_word = "";
+			else if (key=='*'){ // Cancel
+				enter_word = "";
+				if (mode==0 or mode==2) mode += 2;
+				else if (mode==1 or mode==3) mode += 1;
+			}
 			else enter_word += key;
 		}
 	}
@@ -138,7 +143,7 @@ void loop() {
 					if (enter_word==""){ // Start Monitor
 						lcd.start_monitor();
 						TurnOn = !TurnOn;
-						lcd.count_down(WAIT_FOR_GO_OUT);
+						lcd.count_down(WAIT_FOR_GO_OUT); // Block
 						start_t = t;
 					}
 					else{ // Special Mode
@@ -166,7 +171,7 @@ void loop() {
 				// Trigger Alert Event
 				lcd.setBacklight(255);
 				TRIGGERED = true;
-				if(LAUNCH_ALERT) client.trig(1);
+				if(ENABLE_ALERT) client.trig(1);
 				LEDI = FAST_BLINK;
 				lcd.show_triggered();
 				last_press_t = t;
