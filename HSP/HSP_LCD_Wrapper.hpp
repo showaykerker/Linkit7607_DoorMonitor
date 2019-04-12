@@ -27,8 +27,7 @@ class HSP_LCD_Wrapper: public LiquidCrystal_I2C{
 			setCursor(6, 1); 
 			print(WIFI_SSID);
 			delay(block_for);
-			reset();
-			print("Stand By.       ");
+			this->standby();
 			
 		}
 
@@ -57,9 +56,29 @@ class HSP_LCD_Wrapper: public LiquidCrystal_I2C{
 			}
 		}
 		
-		void show_pswd(const char *pswd){
-			reset(); print("PASSWORD:");
-			setCursor(0, 1); print(pswd);
+		void standby(void){
+			reset();
+			print("Stand By.       ");
+		}
+		
+		void show_word(const char *line1){
+			show_word(line1, String("").c_str(), 0);
+		}
+		
+		void show_word(const char *line1, int delay_time){
+			this->show_word(line1, String("").c_str(), delay_time);
+		}
+		
+		void show_word(const char *line1, const char *line2){
+			this->show_word(line1, line2, 0);
+			//reset(); print(line1);
+			//setCursor(0, 1); print(line2);
+		}
+		
+		void show_word(const char *line1, const char *line2, int delay_time){
+			reset(); print(line1);
+			setCursor(0, 1); print(line2);
+			delay(delay_time);
 		}
 		
 		void show_reading(int val){

@@ -8,6 +8,21 @@ The unauthorized entering will trigger the event service provided by [IFTTT](htt
 An extra file "HSP_CallsAndPswd.h" has to be added since it was ignored.
 It should be something looks like the following, 
 
+## Manual
+### Keys
+* '#': Enter
+* '*': Delete
+### Modes
+#### AlertMode
+Press Enter without typing anything will enter the AlertMode.
+In AlertMode, the Hall Effect Sensor will be monitored. Once the value is out of threshold range, an alert will be triggered and a noisy sound will be played.
+To leave AlertMode, simply type the password without pressing enter needed.
+#### HallMonitorMode
+Monitor current reading of the Hall Effect Sensor and show the current threshold.
+#### HallThreshModifyMode
+Modify thresholds through keypad.
+
+
 ``` C++
 
 // HSP_CallsAndPswd.h
@@ -33,9 +48,9 @@ TODO
 * [Keypad Library for Arduino](https://playground.arduino.cc/Code/Keypad/)
 
 ## TODO
-* Check function for Hall Effect Sensor Readings.
 * Can Do More Buzzer Inticator Music
 * Camera Event for RPi.
+* ~~Check function for Hall Effect Sensor Readings.~~ (done @ 190413)
 * ~~Modify through a RA. (requires hardware modifications.)~~ (del @ 190412)
 * ~~Buzzer Part~~ (done @ 190322)
 

@@ -27,6 +27,10 @@ bool LED_ON = false;
 // Alert
 bool TRIGGERED = false;
 
+// Sensor
+unsigned short int HLT = HALL_LOWER_THRESH; 
+unsigned short int HUT = HALL_UPPER_THRESH;
+
 
 void setup() {
 	Serial.begin(9600);
@@ -48,30 +52,110 @@ void setup() {
 
 }
 
+void HallMonitorMode(){
+	unsigned short int last_val = 0;
+	lcd.show_word(String("Reading: " + val).c_str(), String( "U: "+String(HUT) + ", L: "+String(HLT) ).c_str());
+	while (true){
+		char key = kp.getKey();
+		if (key) break;
+		unsigned short int now_val = analogRead(Hall);
+		String val = String(now_val);
+		if (t%10==0) lcd.show_word(String("Reading: " + val).c_str(), String( "U: "+String(HUT) + ", L: "+String(HLT) ).c_str());
+		last_val = now_val;
+	}
+	bz.beep('*');
+	lcd.standby();
+}
+
+void HallThreshModifyMode(){
+	String enter_word = "", last_enter_word="";
+	unsigned short int mode = 0;
+	lcd.show_word(String("Modify Thresholds.").c_str(), 1200);
+	lcd.show_word( String( "U: " + String(HUT) ).c_str(), String( "L: " + String(HLT) ).c_str() );
+	while (true){
+		char key = kp.getKey();
+		if (mode == 0){ // Blink for HUT
+			if (t%20==0) lcd.show_word( String( "U: " + String(HUT) ).c_str(), String( "L: " + String(HLT) ).c_str() );
+			else if (t%20==10) lcd.show_word( String( "U: " + String(HUT) + " <- " ).c_str(), String( "L: " + String(HLT) ).c_str() );
+		}
+		else if (mode == 1){ // Modify HUT
+			if (t%10==0) lcd.show_word( String( "Current: " + String(HUT) ).c_str(), String( " -> New: " + enter_word ).c_str() );
+			else if (t%10==5) lcd.show_word( String( "Current: " + String(HUT) ).c_str(), String( "    New: " + enter_word ).c_str() );
+		}
+		else if (mode == 2){ // Blink for HLT
+			unsigned short int v = (last_enter_word.toInt()>0)?(last_enter_word.toInt()):(HUT);
+			if (last_enter_word!="") HUT = v;
+			if (t%20==0) lcd.show_word( String( "U: " + String(HUT) ).c_str(), String( "L: " + String(HLT) ).c_str() );
+			else if (t%20==10) lcd.show_word( String( "U: " + String(HUT) ).c_str(), String( "L: " + String(HLT) + " <- " ).c_str() );
+		}
+		else if (mode == 3){ // Modify HUT
+			if (t%10==0) lcd.show_word( String( "Current: " + String(HLT) ).c_str(), String( " -> New: " + enter_word ).c_str() );
+			else if (t%10==5) lcd.show_word( String( "Current: " + String(HLT) ).c_str(), String( "    New: " + enter_word ).c_str() );
+		}
+		else if (mode == 4){ // End
+			unsigned short int v = (last_enter_word.toInt()>0)?(last_enter_word.toInt()):(0);
+			if (last_enter_word!="" and v < HUT) HLT = v;
+			HallMonitorMode();
+			break;
+		}
+		if (key){
+			bz.beep(key);
+			if (key == '#'){
+				mode++;
+				last_enter_word = enter_word;
+				enter_word = "";
+			}
+			else if (key=='*') enter_word = "";
+			else enter_word += key;
+		}
+	}
+}
+
+bool check_reset(){
+	// if over TURN_OFF_SEC then turn lcd off
+	if ( (t - last_press_t)/COUNT_FREQ >= TURN_OFF_SEC){
+		LEDI = STAND_BY;
+		lcd.noBacklight();
+		lcd.reset();
+		return true;
+	}
+	return false;
+}
+
 void loop() {
 	digitalWrite(LED_Yellow, LOW); digitalWrite(LED_Orange, LOW);
 	LEDI = STAND_BY;
 	last_press_t = t;
-	String enter_pswd = "";
+	String enter_word = "";
 	while(true){
-		// if over TURN_OFF_SEC then turn lcd off
-		if ( (t - last_press_t)/COUNT_FREQ >= TURN_OFF_SEC){
-			LEDI = STAND_BY;
-			lcd.noBacklight();
-			enter_pswd = "";
-		}
-		if (!TurnOn){
+		if (check_reset()) enter_word = "";
+		if (!TurnOn){ // Turn Off
 			char key = kp.getKey();
-      
 			if (key){
 				bz.beep(key); // Block for 50ms (*5 for special key)
 				LEDI = BLINK;
 				lcd.setBacklight(128);
-				if (key=='#'){
-					lcd.start_monitor();
-					TurnOn = !TurnOn;
-					start_t = t;
-					lcd.count_down(WAIT_FOR_GO_OUT);
+				if (key=='#'){ // Enter
+					if (enter_word==""){ // Start Monitor
+						lcd.start_monitor();
+						TurnOn = !TurnOn;
+						lcd.count_down(WAIT_FOR_GO_OUT);
+						start_t = t;
+					}
+					else{ // Special Mode
+						if (enter_word=="0") HallMonitorMode(); // HALL Monitor Mode
+						else if (enter_word=="1") HallThreshModifyMode(); // Adjust Threshold Mode
+						else lcd.show_word(String("Entering:").c_str(), String("").c_str());
+					}
+					enter_word = "";
+				}
+				else if (key=='*'){ // Cancel
+					enter_word = "";  
+					lcd.show_word(String("Entering:").c_str(), String("").c_str());
+				}
+				else{
+					enter_word += key;
+					lcd.show_word(String("Entering:").c_str(), enter_word.c_str());
 				}
 				last_press_t = t;
 			}
@@ -79,7 +163,7 @@ void loop() {
 		else{ // Turn On
 			
 			int HES = analogRead(Hall); // Hall Effect Sensor Reading.
-			if ((HES<HALL_LOWER_THRESH or HES>HALL_UPPER_THRESH) and TRIGGERED == false){ 
+			if ((HES<HLT or HES>HUT) and TRIGGERED == false){ 
 				// Trigger Alert Event
 				lcd.setBacklight(255);
 				TRIGGERED = true;
@@ -95,36 +179,35 @@ void loop() {
 					if (TRIGGERED == false) LEDI = FAST_BLINK;
 					lcd.setBacklight(128);
 					if (key == '*'){ // Cancel
-						enter_pswd = "";
-						lcd.show_pswd(enter_pswd.c_str());
+						enter_word = "";
+						lcd.show_word(String("Password:").c_str(), enter_word.c_str());
 					}
 					else{
-						enter_pswd += key;
-						lcd.show_pswd(enter_pswd.c_str());
-						if (enter_pswd.length()>16){
-              bz.wrong(); // Block for 8 quarter note, speed 180
+						enter_word += key;
+						lcd.show_word(String("Password:").c_str(), enter_word.c_str());
+						if (enter_word.length()>16){
+							bz.wrong(); // Block for 8 quarter note, speed 180
 							lcd.Wrong_PSWD();
-							enter_pswd = "";
+							enter_word = "";
 						}
-						else if(enter_pswd == ENTER_PSWD){
-              enter_pswd = "";
+						else if(enter_word == ENTER_PSWD){
+							enter_word = "";
 							LEDI = BLINK;
-              bz.pass(); // Block for 2.25 quarter note, speed 120
+							bz.pass(); // Block for 2.25 quarter note, speed 120
 							lcd.Welcome_Home(); // Block for 3500 ms
 							TurnOn = !TurnOn;
 							TRIGGERED = false;
 						}
-
 					}
 					last_press_t = t;
 				}
 			}
 			if (TRIGGERED){
 				last_press_t = t;
-        LEDI = ALERT;
-        if (t % 25 == 0) lcd.show_triggered();
+				LEDI = ALERT;
+				if (t % 25 == 0) lcd.show_triggered();
 				bz.Alert(t); // No Block
-        delay(20);
+				delay(20);
 			}
 		}
 	}
