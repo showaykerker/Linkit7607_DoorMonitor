@@ -4,11 +4,7 @@
 This project is made for monitoring the door if it is opened before entering the correct password.
 The unauthorized entering will trigger the event service provided by [IFTTT](https://ifttt.com/maker_webhooks) and send a Line message to my mobile phone in my case.
 
-## Note
-An extra file "HSP_CallsAndPswd.h" has to be added since it was ignored.
-It should be something looks like the following, 
-
-## Manual
+## Features
 ### Keys
 * '#': Enter
 * '*': Delete
@@ -22,6 +18,9 @@ Monitor current reading of the Hall Effect Sensor and show the current threshold
 #### HallThreshModifyMode
 Modify thresholds through keypad.
 
+## Note
+An extra file "HSP_CallsAndPswd.h" has to be added since it was ignored.
+It should be something looks like the following, 
 
 ``` C++
 

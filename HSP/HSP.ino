@@ -54,7 +54,6 @@ void setup() {
 
 void HallMonitorMode(){
 	unsigned short int last_val = 0;
-	lcd.show_word(String("Reading: " + val).c_str(), String( "U: "+String(HUT) + ", L: "+String(HLT) ).c_str());
 	while (true){
 		char key = kp.getKey();
 		if (key) break;
