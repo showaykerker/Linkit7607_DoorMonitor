@@ -55,10 +55,7 @@ void setup() {
 void ToggleBuzzerEnable(){
 	bz.toggleEnable();
 	bool isEnable = bz.isEnable();
-	if (isEnable){
-		lcd.show_word(String("Buzzer Enabled.").c_str(), 1000);
-		bz.enable(); // Blocks for 1 quarter note, speed 120
-	}
+	if (isEnable) lcd.show_word(String("Buzzer Enabled.").c_str(), 1000);
 	else lcd.show_word(String("Buzzer Disabled.").c_str(), 1000);
 	
 }
@@ -160,7 +157,7 @@ void loop() {
 					else{ // Special Mode
 						if (enter_word=="0") HallMonitorMode(); // HALL Monitor Mode
 						else if (enter_word=="1") HallThreshModifyMode(); // Adjust Threshold Mode
-						else if (enter_word=="8") ToggleBuzzerEnable(); // Toggle Buzzer Output, Blocks for 1~1.5 seconds
+						else if (enter_word=="8") ToggleBuzzerEnable(); // Toggle Buzzer Output, Blocks for 1 seconds
 						else lcd.show_word(String("Entering:").c_str(), String("").c_str());
 					}
 					enter_word = "";

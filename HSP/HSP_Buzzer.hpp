@@ -109,14 +109,6 @@ class HSP_Buzzer{
 			this->beep('x');
 		}
 		
-		void enable(void){
-			if (!this->_enable) return;
-			tone(this->pin, NOTE_C6); delay(tempo_d(120, 8, 1));
-			noTone(this->pin);        delay(10);
-			tone(this->pin, NOTE_C7); delay(tempo_d(120, 8, 1));
-			noTone(this->pin);        delay(10);
-			this->beep('x');
-		}
 		
 		void stop(void){
 			if (!this->_enable) return;
