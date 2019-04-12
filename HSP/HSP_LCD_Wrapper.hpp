@@ -69,7 +69,7 @@ class HSP_LCD_Wrapper: public LiquidCrystal_I2C{
 		}
 		
 		void show_word(const char *line1){
-			show_word(line1, String("").c_str(), 0);
+			this->show_word(line1, String("").c_str(), 0);
 		}
 		
 		void show_word(const char *line1, int delay_time){

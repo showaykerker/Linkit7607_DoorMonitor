@@ -43,13 +43,24 @@ void setup() {
 	pinMode(LED_Orange, OUTPUT); digitalWrite(LED_Orange, HIGH);
 	pinMode(Hall, INPUT);
 	
-	bz.start(); // Block for 3.5 quarter note, speed 120
-	lcd.start(1000); // Block for 1000 ms
+	bz.start(); // Blocks for 3.5 quarter note, speed 120
+	lcd.start(1000); // Blocks for 1000 ms
 	LEDI = BLINK;
 	client.connect_WiFi();
 	if(ENABLE_ALERT) client.trig(TRIG_START);
 	lcd.wifi_connected(2500);
 
+}
+
+void ToggleBuzzerEnable(){
+	bz.toggleEnable();
+	bool isEnable = bz.isEnable();
+	if (isEnable){
+		lcd.show_word(String("Buzzer Enabled.").c_str(), 1000);
+		bz.enable(); // Blocks for 1 quarter note, speed 120
+	}
+	else lcd.show_word(String("Buzzer Disabled.").c_str(), 1000);
+	
 }
 
 void HallMonitorMode(){
@@ -136,7 +147,7 @@ void loop() {
 		if (!TurnOn){ // Turn Off
 			char key = kp.getKey();
 			if (key){
-				bz.beep(key); // Block for 50ms (*5 for special key)
+				bz.beep(key); // Blocks for 50ms (*5 for special key)
 				LEDI = BLINK;
 				lcd.setBacklight(128);
 				if (key=='#'){ // Enter
@@ -149,6 +160,7 @@ void loop() {
 					else{ // Special Mode
 						if (enter_word=="0") HallMonitorMode(); // HALL Monitor Mode
 						else if (enter_word=="1") HallThreshModifyMode(); // Adjust Threshold Mode
+						else if (enter_word=="8") ToggleBuzzerEnable(); // Toggle Buzzer Output, Blocks for 1~1.5 seconds
 						else lcd.show_word(String("Entering:").c_str(), String("").c_str());
 					}
 					enter_word = "";
@@ -179,7 +191,7 @@ void loop() {
 			else{
 				char key = kp.getKey();
 				if(key){
-					bz.beep(key); // Block for 50 ms (*5 for special key)
+					bz.beep(key); // Blocks for 50 ms (*5 for special key)
 					if (TRIGGERED == false) LEDI = FAST_BLINK;
 					lcd.setBacklight(128);
 					if (key == '*'){ // Cancel
@@ -190,15 +202,15 @@ void loop() {
 						enter_word += key;
 						lcd.show_word(String("Password:").c_str(), enter_word.c_str());
 						if (enter_word.length()>16){
-							bz.wrong(); // Block for 8 quarter note, speed 180
+							bz.wrong(); // Blocks for 8 quarter note, speed 180
 							lcd.Wrong_PSWD();
 							enter_word = "";
 						}
 						else if(enter_word == ENTER_PSWD){
 							enter_word = "";
 							LEDI = BLINK;
-							bz.pass(); // Block for 2.25 quarter note, speed 120
-							lcd.Welcome_Home(); // Block for 3500 ms
+							bz.pass(); // Blocks for 2.25 quarter note, speed 120
+							lcd.Welcome_Home(); // Blocks for 3500 ms
 							TurnOn = !TurnOn;
 							TRIGGERED = false;
 						}

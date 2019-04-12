@@ -19,12 +19,12 @@ class HSP_Buzzer{
 		HSP_Buzzer(){
 			pinMode(Buzzer, OUTPUT);
 			this->pin = Buzzer;
-			this->enable = ENABLE_BUZZER;
+			this->_enable = ENABLE_BUZZER;
 			this->t_times = 1 / COUNT_FREQ;
 		}
 		
 		void beep(char type_){
-			if (!this->enable) return;
+			if (!this->_enable) return;
 			int f, delay_;
 			if (type_ == '*' or type_ == '#'){
 				f = NOTE_DS8; 
@@ -44,7 +44,7 @@ class HSP_Buzzer{
 		}
 		
 		void start(void){
-			if (!this->enable) return;
+			if (!this->_enable) return;
 			tone(this->pin, NOTE_G6); delay(tempo_d(120, 8, 1));
 			noTone(this->pin);        delay(10);
 			tone(this->pin, NOTE_F6); delay(tempo_d(120, 8, 1));
@@ -63,7 +63,7 @@ class HSP_Buzzer{
 		}
 		
 		void Alert(unsigned long int t){
-			if (!this->enable) return;
+			if (!this->_enable) return;
 			int hint = t%12;
 			if (hint<3) tone(this->pin, NOTE_G6);
 			else if (hint<6) tone(this->pin, NOTE_FS6);
@@ -72,7 +72,7 @@ class HSP_Buzzer{
 		}
 		
 		void pass(void){
-			if (!this->enable) return;
+			if (!this->_enable) return;
 			tone(this->pin, NOTE_C6); delay(tempo_d(120, 8, 1));
 			noTone(this->pin);        delay(10);
 			tone(this->pin, NOTE_C6); delay(tempo_d(120, 8, 1));
@@ -89,7 +89,7 @@ class HSP_Buzzer{
 		}
 		
 		void wrong(void){
-			if (!this->enable) return;
+			if (!this->_enable) return;
 			tone(this->pin, NOTE_A6);  delay(tempo_d(180, 4, 1));
 			noTone(this->pin);         delay(10);
 			tone(this->pin, NOTE_D7);  delay( tempo_d(180, 4, 3.5) );
@@ -109,16 +109,33 @@ class HSP_Buzzer{
 			this->beep('x');
 		}
 		
+		void enable(void){
+			if (!this->_enable) return;
+			tone(this->pin, NOTE_C6); delay(tempo_d(120, 8, 1));
+			noTone(this->pin);        delay(10);
+			tone(this->pin, NOTE_C7); delay(tempo_d(120, 8, 1));
+			noTone(this->pin);        delay(10);
+			this->beep('x');
+		}
+		
 		void stop(void){
-			if (!this->enable) return;
+			if (!this->_enable) return;
 			noTone(this->pin);
+		}
+		
+		bool isEnable(void){
+			return this->_enable;
+		}
+		
+		void toggleEnable(void){
+			this->_enable = !this->_enable;
 		}
 		
 	private:
 		int pin;
 		int delay_time = 50;
 		float t_times;
-		bool enable;
+		bool _enable;
 		
 		
 };
