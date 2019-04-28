@@ -38,15 +38,17 @@ Enter "8" to toggle buzzer enabling.
 
 
 ## Note
-An extra file "HSP_CallsAndPswd.h" has to be added since it was ignored.
+Two extra files "HSP/HSP_CallsAndPswd.h" and "server/Keys.py" have to be added since it was ignored.
 
 It should be something looks like the following, 
 
 
-
 ``` C++
 
-// HSP_CallsAndPswd.h
+// HSP/HSP_CallsAndPswd.h
+
+// The Arduino script will read this file to set wifi, passwords and send proper request to the server.
+// Alternatively, the TRIGGER can be IFTTT requests if there is no server envolved.
 
 #ifndef CALLS_AND_PSWD_H
 #define CALLS_AND_PSWD_H
@@ -55,10 +57,24 @@ It should be something looks like the following,
 #define WIFI_PSWD "[wifi_password]"
 #define ENTER_PSWD "[password]" // for opening the door without sending an alert
 
-#define TRIGGER_START "GET https://maker.ifttt.com/trigger/[start_event_name]/with/key/[key]"
-#define TRIGGER_ALERT "GET https://maker.ifttt.com/trigger/[alert_event_name]/with/key/[key]"
+#define TRIGGER_START "[ServerIP]:[ServerPort]/0"
+#define TRIGGER_ALERT "[ServerIP]:[ServerPort]/1"
+#define TRIGGER_CLEAR "[ServerIP]:[ServerPort]/2"
 
 #endif
+
+```
+
+``` python
+
+// server/Keys.py
+
+// These will be passed to IFTTT 
+//   as "GET https://maker.ifttt.com/trigger/[start_event_name]/with/key/[key]"
+//   with a json file that contains {value1, value2}.
+
+EventName ='[IFTTT Event Name]'
+Key = '[IFTTT Key]'
 
 ```
 
