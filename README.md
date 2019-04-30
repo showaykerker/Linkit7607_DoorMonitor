@@ -3,7 +3,8 @@
 ## Home Security Project
 This project is made for monitoring the door if it is opened before entering the correct password.
 
-The unauthorized entering will trigger the event service provided by [IFTTT](https://ifttt.com/maker_webhooks) and send a Line message to my mobile phone in my case.
+The unauthorized entering will send a request to [RaspberryPi](https://www.raspberrypi.org/) server, which takes pictures of the opened door using [OpenCV](https://opencv.org/) as it send trigger to the event service provided by [IFTTT](https://ifttt.com/maker_webhooks) that send a Line message to my mobile phone in my case.
+
 
 ## Features
 ### Keys
@@ -38,15 +39,18 @@ Enter "8" to toggle buzzer enabling.
 
 
 ## Note
-An extra file "HSP_CallsAndPswd.h" has to be added since it was ignored.
+Two extra files "HSP/HSP_CallsAndPswd.h" and "server/Keys.py" have to be added since it was ignored.
 
 It should be something looks like the following, 
 
 
-
+#### HSP/HSP_CallsAndPswd.h
 ``` C++
 
-// HSP_CallsAndPswd.h
+// HSP/HSP_CallsAndPswd.h
+
+// The Arduino script will read this file to set wifi, passwords and send proper request to the server.
+// Alternatively, the TRIGGER can be IFTTT requests if there is no server envolved.
 
 #ifndef CALLS_AND_PSWD_H
 #define CALLS_AND_PSWD_H
@@ -55,10 +59,26 @@ It should be something looks like the following,
 #define WIFI_PSWD "[wifi_password]"
 #define ENTER_PSWD "[password]" // for opening the door without sending an alert
 
-#define TRIGGER_START "GET https://maker.ifttt.com/trigger/[start_event_name]/with/key/[key]"
-#define TRIGGER_ALERT "GET https://maker.ifttt.com/trigger/[alert_event_name]/with/key/[key]"
+#define TRIGGER_START "[ServerIP]:[ServerPort]/0"
+#define TRIGGER_ALERT "[ServerIP]:[ServerPort]/1"
+#define TRIGGER_CLEAR "[ServerIP]:[ServerPort]/2"
 
 #endif
+
+```
+
+#### server/Keys.py
+
+``` python
+
+# server/Keys.py
+
+# These will be passed to IFTTT 
+#   as "GET https://maker.ifttt.com/trigger/[start_event_name]/with/key/[key]"
+#   with a json file that contains {value1, value2}.
+
+EventName ='[IFTTT Event Name]'
+Key = '[IFTTT Key]'
 
 ```
 
@@ -66,7 +86,11 @@ It should be something looks like the following,
 TODO
 
 ## Extra Libraries
+#### Arduino
 * [Keypad Library for Arduino](https://playground.arduino.cc/Code/Keypad/)
+#### Python3
+* [Flask 0.12.1](http://flask.pocoo.org/)
+* [OpenCV](https://opencv.org/)
 
 ## TODO
 * Add an alert dismiss message.
