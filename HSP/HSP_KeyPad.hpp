@@ -5,7 +5,7 @@
 #include<Keypad.h>
 
 #define KEY_ROWS 4 
-#define KEY_COLS 4 
+#define KEY_COLS 3
 
 class HSP_KeyPad{
 	public:
@@ -20,8 +20,10 @@ class HSP_KeyPad{
 			{'7', '8', '9'},
 			{'*', '0', '#'}
 		};
-		byte colPins[KEY_COLS] = {3, 4, 5};
-		byte rowPins[KEY_ROWS] = {10, 11, 12, 13};
+		//byte colPins[KEY_COLS] = {3, 4, 5};
+		//byte rowPins[KEY_ROWS] = {10, 11, 12, 13};
+		byte colPins[KEY_COLS] = {16, 15, 14};
+		byte rowPins[KEY_ROWS] = {13, 12, 11, 10};
 };
 
 

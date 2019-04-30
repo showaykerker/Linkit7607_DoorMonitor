@@ -7,7 +7,7 @@
 
 // WONT sent GET request to server if this is set to 0
 #define ENABLE_ALERT 1
-#define ENABLE_BUZZER 1
+#define ENABLE_BUZZER 0
 
 // Wait for how many seconds after launching the system
 #define WAIT_FOR_GO_OUT 1
@@ -17,8 +17,8 @@
 
 /* ========== Advanced Settings ========== */
 // Threshold of Hall Effect Sensor
-#define HALL_UPPER_THRESH 2000
-#define HALL_LOWER_THRESH 0
+#define HALL_UPPER_THRESH 2500
+#define HALL_LOWER_THRESH 1000
 
 
 /* ========== Code Definitions ========== */
@@ -26,12 +26,12 @@
 // IF YOU DONT KNOW WHAT YOU'RE DOING
 #define COUNT_FREQ 10 // Counting Frequency of t
 // Pin Definitions
-#define Hall 14
+#define Hall 17
 #define SCL 8
 #define SDA 9
-#define Buzzer 15
-#define LED_Yellow 16
-#define LED_Orange 17
+#define Buzzer 3
+#define LED_Yellow 4
+#define LED_Orange 5
 
 
 enum LEDIND{

@@ -69,8 +69,9 @@ TODO
 * [Keypad Library for Arduino](https://playground.arduino.cc/Code/Keypad/)
 
 ## TODO
-* Can Do More Buzzer Inticator Music
+* Add an alert dismiss message.
 * Camera Event for RPi.
+* ~~Can Do More Buzzer Inticator Music~~ (del @ 190422)
 * ~~Check function for Hall Effect Sensor Readings.~~ (done @ 190413)
 * ~~Modify through a RA. (requires hardware modifications.)~~ (del @ 190412)
 * ~~Buzzer Part~~ (done @ 190322)

@@ -41,7 +41,7 @@ void setup() {
 	
 	pinMode(LED_Yellow, OUTPUT); digitalWrite(LED_Yellow, HIGH);
 	pinMode(LED_Orange, OUTPUT); digitalWrite(LED_Orange, HIGH);
-	pinMode(Hall, INPUT);
+  	pinMode(Hall, INPUT);
 	
 	bz.start(); // Blocks for 3.5 quarter note, speed 120
 	lcd.start(1000); // Blocks for 1000 ms
