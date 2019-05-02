@@ -88,13 +88,14 @@ TODO
 ## Extra Libraries
 #### Arduino
 * [Keypad Library for Arduino](https://playground.arduino.cc/Code/Keypad/)
-#### Python3
-* [Flask 0.12.1](http://flask.pocoo.org/)
-* [OpenCV](https://opencv.org/)
+#### Python 3.6.6
+* [Flask 1.0.2](http://flask.pocoo.org/)
+* [PiCamera](https://picamera.readthedocs.io/en/release-1.13/#)
 
 ## TODO
 * Add an alert dismiss message.
-* Camera Event for RPi.
+* Update Pictures to Google Drive
+* ~~Camera Event for RPi.~~ (done @ 190502)
 * ~~Can Do More Buzzer Inticator Music~~ (del @ 190422)
 * ~~Check function for Hall Effect Sensor Readings.~~ (done @ 190413)
 * ~~Modify through a RA. (requires hardware modifications.)~~ (del @ 190412)
