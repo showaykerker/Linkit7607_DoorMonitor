@@ -93,7 +93,7 @@ TODO
 * [PiCamera](https://picamera.readthedocs.io/en/release-1.13/#)
 
 ## TODO
-* Update Pictures to Google Drive
+* Upload Pictures to Google Drive
 * ~~Add an alert dismiss message.~~ (done @ 190502)
 * ~~Camera Event for RPi.~~ (done @ 190502)
 * ~~Can Do More Buzzer Inticator Music~~ (del @ 190422)
