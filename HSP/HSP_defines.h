@@ -12,7 +12,7 @@
 // Wait for how many seconds after launching the system
 #define WAIT_FOR_GO_OUT 1
 // Wait for how many seconds to turn off lcd
-#define TURN_OFF_SEC 5 
+#define TURN_OFF_SEC 5
 
 
 /* ========== Advanced Settings ========== */

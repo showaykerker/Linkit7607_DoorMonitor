@@ -41,13 +41,13 @@ void setup() {
 	
 	pinMode(LED_Yellow, OUTPUT); digitalWrite(LED_Yellow, HIGH);
 	pinMode(LED_Orange, OUTPUT); digitalWrite(LED_Orange, HIGH);
-  	pinMode(Hall, INPUT);
+	pinMode(Hall, INPUT);
 	
 	bz.start(); // Blocks for 3.5 quarter note, speed 120
 	lcd.start(1000); // Blocks for 1000 ms
 	LEDI = BLINK;
 	client.connect_WiFi();
-	if(ENABLE_ALERT) client.trig(TRIG_START);
+	if(ENABLE_ALERT) client.trig(0);
 	lcd.wifi_connected(2500);
 
 }
@@ -209,6 +209,7 @@ void loop() {
 							bz.pass(); // Blocks for 2.25 quarter note, speed 120
 							lcd.Welcome_Home(); // Blocks for 3500 ms
 							TurnOn = !TurnOn;
+							if (TRIGGERED) client.trig(2); // Call Clear.
 							TRIGGERED = false;
 						}
 					}

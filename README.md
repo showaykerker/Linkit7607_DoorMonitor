@@ -59,9 +59,9 @@ It should be something looks like the following,
 #define WIFI_PSWD "[wifi_password]"
 #define ENTER_PSWD "[password]" // for opening the door without sending an alert
 
-#define TRIGGER_START "[ServerIP]:[ServerPort]/0"
-#define TRIGGER_ALERT "[ServerIP]:[ServerPort]/1"
-#define TRIGGER_CLEAR "[ServerIP]:[ServerPort]/2"
+#define TRIGGER_START "GET [ServerIP]:[ServerPort]/0"
+#define TRIGGER_ALERT "GET [ServerIP]:[ServerPort]/1"
+#define TRIGGER_CLEAR "GET [ServerIP]:[ServerPort]/2"
 
 #endif
 
@@ -93,8 +93,8 @@ TODO
 * [PiCamera](https://picamera.readthedocs.io/en/release-1.13/#)
 
 ## TODO
-* Add an alert dismiss message.
 * Update Pictures to Google Drive
+* ~~Add an alert dismiss message.~~ (done @ 190502)
 * ~~Camera Event for RPi.~~ (done @ 190502)
 * ~~Can Do More Buzzer Inticator Music~~ (del @ 190422)
 * ~~Check function for Hall Effect Sensor Readings.~~ (done @ 190413)

@@ -13,6 +13,7 @@ HSP_WiFi::HSP_WiFi(char* ssid_, char* pswd_){
 	pswd = pswd_;
 	trigger_Start = TRIGGER_START;
 	trigger_Alert = TRIGGER_ALERT;
+	trigger_Clear = TRIGGER_CLEAR;
 }
 
 void HSP_WiFi::connect_WiFi(void){
@@ -25,17 +26,14 @@ void HSP_WiFi::connect_WiFi(void){
 	printWiFiStatus();
 }
 
-void HSP_WiFi::trig(int type){ // type0: Start, type1: Alert
-	if (client.connect(server, 80)){
+void HSP_WiFi::trig(int type){ // type0: Start, type1: Alert, type3: Clear
+	if (client.connect(RPI_SERVER, RPI_PORT)){
 		Serial.println("connected to server (GET)");
         // Make a HTTP request:
 		if (type==0) client.println(trigger_Start);
-        else client.println(trigger_Alert);
-        client.println("Host: maker.ifttt.com");
-        client.println("Accept: */*");
-        client.println("Connection: close");
-        //client.println();
-        delay(100);
+	        else if (type==1) client.println(trigger_Alert);
+		else if (type==2) client.println(trigger_CLEAR)
+	        delay(100);
 	}
 	while (client.available()) {
         char c = client.read();

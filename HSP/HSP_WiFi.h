@@ -17,8 +17,8 @@ class HSP_WiFi{
 		int status = WL_IDLE_STATUS;
 		char *server; 
 		char *ssid, *pswd;
-		char *trigger_Start, *trigger_Alert;
-		
+		char *trigger_Start, *trigger_Alert, *trigger_Clear;
+
 };
 
 
