@@ -26,19 +26,27 @@ void HSP_WiFi::connect_WiFi(void){
 	printWiFiStatus();
 }
 
-void HSP_WiFi::trig(int type){ // type0: Start, type1: Alert, type3: Clear
+bool HSP_WiFi::trig(int type){ // type0: Start, type1: Alert, type3: Clear
 	if (client.connect(RPI_SERVER, RPI_PORT)){
 		Serial.println("connected to server (GET)");
         // Make a HTTP request:
 		if (type==0) client.println(trigger_Start);
-	        else if (type==1) client.println(trigger_Alert);
-		else if (type==2) client.println(trigger_CLEAR)
-	        delay(100);
+	    else if (type==1) client.println(trigger_Alert);
+		else if (type==2) client.println(trigger_Clear);
+		client.println("Host: " + String(RPI_SERVER));
+        client.println("Accept: */*");
+        client.println("Connection: close");
+        client.println();
+		delay(100);
+	}
+	else{
+		return false;
 	}
 	while (client.available()) {
         char c = client.read();
         Serial.write(c);
     }
+	return true;
 }
 
 

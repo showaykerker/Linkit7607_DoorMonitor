@@ -47,7 +47,10 @@ void setup() {
 	lcd.start(1000); // Blocks for 1000 ms
 	LEDI = BLINK;
 	client.connect_WiFi();
-	if(ENABLE_ALERT) client.trig(0);
+	bool indicator;
+	if(ENABLE_ALERT) indicator = client.trig(0);
+	if(!indicator) lcd.show_word(String("Request Fail.").c_str(), 1000);
+	else lcd.show_word(String("Request Success.").c_str(), 1000);
 	lcd.wifi_connected(2500);
 
 }
@@ -180,7 +183,10 @@ void loop() {
 				// Trigger Alert Event
 				lcd.setBacklight(255);
 				TRIGGERED = true;
-				if(ENABLE_ALERT) client.trig(1);
+				bool indicator;
+				if(ENABLE_ALERT) indicator = client.trig(1);
+				if(!indicator) lcd.show_word(String("Request Fail.").c_str(), 1000);
+				else lcd.show_word(String("Request Success.").c_str(), 1000);
 				LEDI = FAST_BLINK;
 				lcd.show_triggered();
 				last_press_t = t;
@@ -209,7 +215,10 @@ void loop() {
 							bz.pass(); // Blocks for 2.25 quarter note, speed 120
 							lcd.Welcome_Home(); // Blocks for 3500 ms
 							TurnOn = !TurnOn;
-							if (TRIGGERED) client.trig(2); // Call Clear.
+							bool indicator;
+							if(TRIGGERED) indicator = client.trig(2); // Call Clear.
+							if(!indicator) lcd.show_word(String("Request Fail.").c_str(), 1000);
+							else lcd.show_word(String("Request Success.").c_str(), 1000);
 							TRIGGERED = false;
 						}
 					}

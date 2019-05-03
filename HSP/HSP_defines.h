@@ -19,6 +19,8 @@
 // Threshold of Hall Effect Sensor
 #define HALL_UPPER_THRESH 2500
 #define HALL_LOWER_THRESH 1000
+#define RPI_SERVER "192.168.0.102"
+#define RPI_PORT 8008
 
 
 /* ========== Code Definitions ========== */

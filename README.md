@@ -59,9 +59,9 @@ It should be something looks like the following,
 #define WIFI_PSWD "[wifi_password]"
 #define ENTER_PSWD "[password]" // for opening the door without sending an alert
 
-#define TRIGGER_START "GET [ServerIP]:[ServerPort]/0"
-#define TRIGGER_ALERT "GET [ServerIP]:[ServerPort]/1"
-#define TRIGGER_CLEAR "GET [ServerIP]:[ServerPort]/2"
+#define TRIGGER_START "GET /0"
+#define TRIGGER_ALERT "GET /1"
+#define TRIGGER_CLEAR "GET /2"
 
 #endif
 
