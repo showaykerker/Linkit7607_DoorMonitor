@@ -1,13 +1,26 @@
-from picamera import PiCamera
-import time
-
-from flask import Flask
-import requests
+from camera_pi import Camera
 import Keys
 
-app = Flask(__name__)
+import time
+from flask import Flask, Response
+import requests, socket, io
+import numpy as np
+from PIL import Image
 
-camera = PiCamera(resolution=(512, 384))
+app = Flask(__name__)
+camera_pi = Camera()
+
+def gen():
+	"""Video streaming generator function."""
+	while True:
+		frame = camera_pi.get_frame()
+		yield (b'--frame\r\n'
+				b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+@app.route('/video_feed')
+def video_feed():
+	"""Video streaming route. Put this in the src attribute of an img tag."""
+	return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/')
 def index():
@@ -31,10 +44,13 @@ def AlarmSystem(id):
 		for i in range(20):
 			pic_name = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
 			pic_name += '_%d.jpg' % i
-			camera.capture(pic_name)
+			frame_bytes = camera_pi.get_frame()
+			img = Image.open(io.BytesIO(frame_bytes))
+			img.save(pic_name)
 
 	return r.text
 
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=8008)
+
