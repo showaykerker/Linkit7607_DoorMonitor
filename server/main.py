@@ -1,7 +1,8 @@
 from camera_pi import Camera
 import Keys
+import UploadToGdrive as UTGD
 
-import time
+import time, os
 from flask import Flask, Response
 import requests, socket, io
 import numpy as np
@@ -9,6 +10,8 @@ from PIL import Image
 
 app = Flask(__name__)
 camera_pi = Camera()
+
+dir_path = os.path.dirname(os.path.realpath(__file__)) + '/'
 
 def gen():
 	"""Video streaming generator function."""
@@ -41,12 +44,15 @@ def AlarmSystem(id):
 	r = requests.get("https://maker.ifttt.com/trigger/%s/with/key/%s" % (Keys.EventName, Keys.Key), data = data)
 
 	if id == 1:
+		folder_name = time.strftime("%Y-%m-%d_%H:%M", time.localtime())
+		folder_path = dir_path + folder_name + '/'
+		if not os.path.exists(folder_path): os.makedirs(folder_path)
 		for i in range(20):
-			pic_name = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
-			pic_name += '_%d.jpg' % i
+			pic_name = '%d.jpg' % (i+1)
 			frame_bytes = camera_pi.get_frame()
 			img = Image.open(io.BytesIO(frame_bytes))
 			img.save(pic_name)
+		UTGD.Upload(fname=folder_name, fpath=folder_path, n_imgs=20)
 
 	return r.text
 

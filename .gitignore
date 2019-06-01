@@ -43,3 +43,7 @@ __pycache__/
 
 HSP/HSP_CallsAndPswd\.h
 server/Keys\.py
+
+server/client_secrets\.json
+
+server/myAuth\.pkl
