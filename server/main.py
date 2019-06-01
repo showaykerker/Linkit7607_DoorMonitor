@@ -10,7 +10,10 @@ from PIL import Image
 
 app = Flask(__name__)
 camera_pi = Camera()
+
+# For Capturing image
 n_pic = 20
+sleep_time = 0.2
 
 dir_path = os.path.dirname(os.path.realpath(__file__)) + '/'
 
@@ -41,7 +44,7 @@ def AlarmSystem(id):
 		text='HSP警報已解除'
 	else:
 		return 'Hi'
-		
+
 	data = {'value1': '<br>'+text} #, 'value2': 'http://youtube.com'}
 	r = requests.get("https://maker.ifttt.com/trigger/%s/with/key/%s" % (Keys.EventName, Keys.Key), data = data)
 
@@ -50,23 +53,24 @@ def AlarmSystem(id):
 		folder_path = dir_path + folder_name + '/'
 		if not os.path.exists(folder_path): os.makedirs(folder_path)
 		img_list = []
-		for i in range(n_pic*10):
-			if i%10 == 0:
-				img_list.append(camera_pi.get_frame())
+		for i in range(n_pic):
+			print(i, time.time())
+			img_list.append(camera_pi.get_frame())
+			time.sleep(sleep_time)
 		for i, frame_bytes in enumerate(img_list):
 			pic_name = '%d.jpg' % (i+1)
 			img = Image.open(io.BytesIO(frame_bytes))
 			img.save(folder_path + pic_name)
 		link = UTGD.Upload(fname=folder_name, fpath=folder_path, n_imgs=n_pic)
-		
+
 		# Send 1 more request for the link of share image.
 		data = {
 			'value1': '<br>以記錄門口照片，請從以下連結進入查看',
 			'value2': str(link)
 		}
 		r = requests.get("https://maker.ifttt.com/trigger/%s/with/key/%s" % (Keys.EventName, Keys.Key), data = data)
-		
-	
+
+
 
 	return r.text
 
