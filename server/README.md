@@ -7,6 +7,10 @@
 4. Rename the downloaded file to **client_secrets.json** and place it under `server/` folder.
 5. Run `server/GoogleAuth.py` with desktop environment ( or VNC ) to authenticate the permission of uploading files to your google drive. This step generates a file called **myAuth.pkl**.
 
+## Future Features
+* [Remove folder after update to google drive.](https://stackoverflow.com/questions/303200/how-do-i-remove-delete-a-folder-that-is-not-empty-with-python)
+* Add logger
+
 ## Harware
 TODO
 
