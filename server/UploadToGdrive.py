@@ -31,7 +31,7 @@ def Upload(fname, fpath, n_imgs=20):
 	
 	# Check if filename exists, 
 	for f in sub_list:
-		print(f['title'], f['id'])
+		#print(f['title'], f['id'])
 		if f['title'] == fname: 
 			fid = f['id']
 			print('Folder \"%s\" already in project_root, id %s' % (f['title'], str(fid)) )
@@ -46,7 +46,7 @@ def Upload(fname, fpath, n_imgs=20):
 		}
 		folder = drive.CreateFile(folder_meta_data)
 		folder.Upload()
-		print(folder['title'], folder['id'], 'new')
+		#print(folder['title'], folder['id'], 'new')
 		fid = folder['id']
 		print('Create folder \"%s\", id %s' % (fname, str(fid)))
 		folder.FetchMetadata(fields='permissions')

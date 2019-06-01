@@ -49,9 +49,12 @@ def AlarmSystem(id):
 		folder_name = time.strftime("%Y-%m-%d_%H:%M", time.localtime())
 		folder_path = dir_path + folder_name + '/'
 		if not os.path.exists(folder_path): os.makedirs(folder_path)
-		for i in range(n_pic):
+		img_list = []
+		for i in range(n_pic*10):
+			if i%10 == 0:
+				img_list.append(camera_pi.get_frame())
+		for i, frame_bytes in enumerate(img_list):
 			pic_name = '%d.jpg' % (i+1)
-			frame_bytes = camera_pi.get_frame()
 			img = Image.open(io.BytesIO(frame_bytes))
 			img.save(pic_name)
 		link = UTGD.Upload(fname=folder_name, fpath=folder_path, n_imgs=n_pic)
