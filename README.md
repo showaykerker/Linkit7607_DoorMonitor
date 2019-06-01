@@ -76,9 +76,11 @@ It should be something looks like the following,
 # These will be passed to IFTTT 
 #   as "GET https://maker.ifttt.com/trigger/[start_event_name]/with/key/[key]"
 #   with a json file that contains {value1, value2}.
-
 EventName ='[IFTTT Event Name]'
 Key = '[IFTTT Key]'
+
+# A folder named below must be exists on your Google Drive
+Project_Root_Name = 'HSProject'
 
 ```
 
