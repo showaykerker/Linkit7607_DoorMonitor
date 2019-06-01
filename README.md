@@ -88,10 +88,11 @@ TODO
 ## Extra Libraries
 #### Arduino
 * [Keypad Library for Arduino](https://playground.arduino.cc/Code/Keypad/)
-#### Python 3.6.6
-* [Flask 1.0.2](http://flask.pocoo.org/)
+#### Python-3.6.6
+* [Flask-1.0.2](http://flask.pocoo.org/)
 * [PiCamera](https://picamera.readthedocs.io/en/release-1.13/#)
-
+* Google APIs
+* [PyDrive-1.3.1](https://pythonhosted.org/PyDrive/)
 ## TODO
 * Upload Pictures to Google Drive
 * ~~Add an alert dismiss message.~~ (done @ 190502)
