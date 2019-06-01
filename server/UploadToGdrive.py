@@ -1,6 +1,10 @@
 from pydrive.drive import GoogleDrive
 import pickle
 import time, os
+import unittest
+if __name__ == '__main__': 
+	import cv2
+	import numpy as np
 
 Project_Root_Name = 'HSProject'
 dir_path = os.path.dirname(os.path.realpath(__file__)) + '/'
@@ -55,4 +59,21 @@ def Upload(fname, fpath, n_imgs=20):
 		file2upload['mimeType']))
 	
 	print('Done.')
+
+class GoogleDriveAPITestCase(unittest.TestCase):
+	fname = 'test01'
+	fpath = 'test/' + fname + '/'
+	def test_all(self):
+		if not os.path.exists(self.fpath): os.makedirs(self.fpath)
+		for i in range(20):
+			fake_img = np.random.normal(120, 40, (480, 640, 3)).astype(np.uint8)
+			img_name = self.fpath + "%d.jpg" % (i+1)
+			cv2.imwrite(img_name, fake_img)
+		Upload(self.fname, self.fpath, 20)	
+		
+		
+if __name__ == '__main__':
+	unittest.main(verbosity=2)
+
+	
 	
