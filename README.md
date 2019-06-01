@@ -3,7 +3,7 @@
 ## Home Security Project
 This project is made for monitoring the door if it is opened before entering the correct password.
 
-The unauthorized entering will send a request to [RaspberryPi](https://www.raspberrypi.org/) server, which takes pictures of the opened door using [OpenCV](https://opencv.org/) as it send trigger to the event service provided by [IFTTT](https://ifttt.com/maker_webhooks) that send a Line message to my mobile phone in my case.
+The unauthorized entering will send a request to [RaspberryPi](https://www.raspberrypi.org/) server, which takes pictures of the opened door using [PiCamera](https://picamera.readthedocs.io/en/release-1.13/#) as it send trigger to the event service provided by [IFTTT](https://ifttt.com/maker_webhooks) that send a Line message to my mobile phone in my case.
 
 
 ## Features
@@ -90,13 +90,13 @@ TODO
 ## Extra Libraries
 #### Arduino
 * [Keypad Library for Arduino](https://playground.arduino.cc/Code/Keypad/)
-#### Python-3.6.6
+#### Python-3.5
 * [Flask-1.0.2](http://flask.pocoo.org/)
-* [PiCamera](https://picamera.readthedocs.io/en/release-1.13/#)
+* [PiCamera-1.13](https://picamera.readthedocs.io/en/release-1.13/#)
 * Google APIs
 * [PyDrive-1.3.1](https://pythonhosted.org/PyDrive/)
 ## TODO
-* Upload Pictures to Google Drive
+* ~~Upload Pictures to Google Drive~~ (done @190602)
 * ~~Add an alert dismiss message.~~ (done @ 190502)
 * ~~Camera Event for RPi.~~ (done @ 190502)
 * ~~Can Do More Buzzer Inticator Music~~ (del @ 190422)
