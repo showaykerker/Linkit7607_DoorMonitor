@@ -56,7 +56,7 @@ def AlarmSystem(id):
 		for i, frame_bytes in enumerate(img_list):
 			pic_name = '%d.jpg' % (i+1)
 			img = Image.open(io.BytesIO(frame_bytes))
-			img.save(pic_name)
+			img.save(folder_path + pic_name)
 		link = UTGD.Upload(fname=folder_name, fpath=folder_path, n_imgs=n_pic)
 		
 		# Send 1 more request for the link of share image.
