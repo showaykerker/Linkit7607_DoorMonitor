@@ -65,7 +65,7 @@ def AlarmSystem(id):
 
 		# Send 1 more request for the link of share image.
 		data = {
-			'value1': '<br>以記錄門口照片，請從以下連結進入查看',
+			'value1': '<br>已記錄門口照片，請從以下連結進入查看',
 			'value2': str(link)
 		}
 		r = requests.get("https://maker.ifttt.com/trigger/%s/with/key/%s" % (Keys.EventName, Keys.Key), data = data)
