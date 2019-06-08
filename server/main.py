@@ -61,15 +61,19 @@ def AlarmSystem(id):
 			pic_name = '%d.jpg' % (i+1)
 			img = Image.open(io.BytesIO(frame_bytes))
 			img.save(folder_path + pic_name)
-		link = UTGD.Upload(fname=folder_name, fpath=folder_path, n_imgs=n_pic)
+
+		link, fid, drive = UTGD.GetLink(fname=folder_name)
 
 		# Send 1 more request for the link of share image.
 		data = {
-			'value1': '<br>已記錄門口照片，請從以下連結進入查看',
-			'value2': str(link)
+			'value1': '<br>已記錄門口照片，上傳中，請從以下連結進入查看',
+			'value2': str(link),
+			'value3': '延平派出所電話：(02)25564340'
 		}
 		r = requests.get("https://maker.ifttt.com/trigger/%s/with/key/%s" % (Keys.EventName, Keys.Key), data = data)
 
+		# Start Upload
+		UTGD.Upload(drive, fpath=folder_path, fid=fid, n_imgs=n_pic)
 
 
 	return r.text
