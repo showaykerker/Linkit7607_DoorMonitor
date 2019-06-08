@@ -12,7 +12,7 @@ app = Flask(__name__)
 camera_pi = Camera()
 
 # For Capturing image
-n_pic = 20
+n_pic = 15
 sleep_time = 0.2
 
 dir_path = os.path.dirname(os.path.realpath(__file__)) + '/'
