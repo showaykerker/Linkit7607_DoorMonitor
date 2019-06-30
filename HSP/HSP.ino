@@ -49,8 +49,8 @@ void setup() {
 	client.connect_WiFi();
 	bool indicator;
 	if(ENABLE_ALERT) indicator = client.trig(0);
-	if(!indicator) lcd.show_word(String("Request Fail.").c_str(), 1000);
-	else lcd.show_word(String("Request Success.").c_str(), 1000);
+	if(!indicator) lcd.show_word(String("Request Fail.").c_str(), 5000);
+	// else lcd.show_word(String("Request Success.").c_str(), 1000);
 	lcd.wifi_connected(2500);
 
 }
@@ -161,6 +161,11 @@ void loop() {
 						if (enter_word=="0") HallMonitorMode(); // HALL Monitor Mode
 						else if (enter_word=="1") HallThreshModifyMode(); // Adjust Threshold Mode
 						else if (enter_word=="8") ToggleBuzzerEnable(); // Toggle Buzzer Output, Blocks for 1 seconds
+						else if (enter_word=="601") client.trig(601); // User Define Mode 601
+						else if (enter_word=="602") client.trig(602); // User Define Mode 602
+						else if (enter_word=="603") client.trig(603); // User Define Mode 603
+						else if (enter_word=="604") client.trig(604); // User Define Mode 604
+						else if (enter_word=="605") client.trig(605); // User Define Mode 605
 						else lcd.show_word(String("Entering:").c_str(), String("").c_str());
 					}
 					enter_word = "";
@@ -185,8 +190,8 @@ void loop() {
 				TRIGGERED = true;
 				bool indicator;
 				if(ENABLE_ALERT) indicator = client.trig(1);
-				if(!indicator) lcd.show_word(String("Request Fail.").c_str(), 1000);
-				else lcd.show_word(String("Request Success.").c_str(), 1000);
+				if(!indicator) lcd.show_word(String("Request Fail.").c_str(), 5000);
+				// else lcd.show_word(String("Request Success.").c_str(), 1000);
 				LEDI = FAST_BLINK;
 				lcd.show_triggered();
 				last_press_t = t;
@@ -200,6 +205,15 @@ void loop() {
 					if (key == '*'){ // Cancel
 						enter_word = "";
 						lcd.show_word(String("Password:").c_str(), enter_word.c_str());
+					}
+					else if (key=='#'){ // Enter
+						if (enter_word=="801") client.trig(801); // User Define Mode 801
+						else if (enter_word=="802") client.trig(802); // User Define Mode 802
+						else if (enter_word=="803") client.trig(803); // User Define Mode 803
+						else if (enter_word=="804") client.trig(804); // User Define Mode 804
+						else if (enter_word=="805") client.trig(805); // User Define Mode 805
+						else lcd.show_word(String("Entering:").c_str(), String("").c_str());
+						enter_word = "";
 					}
 					else{
 						enter_word += key;
@@ -217,8 +231,8 @@ void loop() {
 							TurnOn = !TurnOn;
 							bool indicator;
 							if(TRIGGERED) indicator = client.trig(2); // Call Clear.
-							if(!indicator) lcd.show_word(String("Request Fail.").c_str(), 1000);
-							else lcd.show_word(String("Request Success.").c_str(), 1000);
+							if(!indicator) lcd.show_word(String("Request Fail.").c_str(), 5000);
+							// else lcd.show_word(String("Request Success.").c_str(), 1000);
 							TRIGGERED = false;
 						}
 					}

@@ -7,21 +7,36 @@
 
 // WONT sent GET request to server if this is set to 0
 #define ENABLE_ALERT 1
-#define ENABLE_BUZZER 0
+#define ENABLE_BUZZER 1
 
 // Wait for how many seconds after launching the system
-#define WAIT_FOR_GO_OUT 1
+#define WAIT_FOR_GO_OUT 10
 // Wait for how many seconds to turn off lcd
 #define TURN_OFF_SEC 5
 
 
 /* ========== Advanced Settings ========== */
 // Threshold of Hall Effect Sensor
-#define HALL_UPPER_THRESH 2500
+#define HALL_UPPER_THRESH 3000
 #define HALL_LOWER_THRESH 1000
-#define RPI_SERVER "192.168.0.102"
+#define RPI_SERVER "192.168.0.18"
 #define RPI_PORT 8008
 
+/* ========== Advanced Settings ========== */
+// Trigger to be sent to RPi
+#define TRIGGER_START "GET /0"
+#define TRIGGER_ALERT "GET /1"
+#define TRIGGER_CLEAR "GET /2"
+#define TRIGGER_USER_DEFINE1_1 "GET /601"
+#define TRIGGER_USER_DEFINE1_2 "GET /602"
+#define TRIGGER_USER_DEFINE1_3 "GET /603"
+#define TRIGGER_USER_DEFINE1_4 "GET /604"
+#define TRIGGER_USER_DEFINE1_5 "GET /605"
+#define TRIGGER_USER_DEFINE2_1 "GET /801"
+#define TRIGGER_USER_DEFINE2_2 "GET /802"
+#define TRIGGER_USER_DEFINE2_3 "GET /803"
+#define TRIGGER_USER_DEFINE2_4 "GET /804"
+#define TRIGGER_USER_DEFINE2_5 "GET /805"
 
 /* ========== Code Definitions ========== */
 // DONT TOUCH ANY OF THIS 
