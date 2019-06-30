@@ -4,12 +4,13 @@ import UploadToGdrive as UTGD
 
 import time, os
 from flask import Flask, Response
+import logging
 import requests, socket, io
 import numpy as np
 from PIL import Image
 
 app = Flask(__name__)
-camera_pi = Camera()
+#camera_pi = Camera()
 
 # For Capturing image
 n_pic = 15
@@ -17,6 +18,9 @@ sleep_time = 0.2
 
 dir_path = os.path.dirname(os.path.realpath(__file__)) + '/'
 
+silent = True
+
+'''
 def gen():
 	"""Video streaming generator function."""
 	while True:
@@ -28,6 +32,7 @@ def gen():
 def video_feed():
 	"""Video streaming route. Put this in the src attribute of an img tag."""
 	return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+'''
 
 @app.route('/')
 def index():
@@ -46,13 +51,16 @@ def AlarmSystem(id):
 		return 'Hi'
 
 	data = {'value1': '<br>'+text} #, 'value2': 'http://youtube.com'}
-	r = requests.get("https://maker.ifttt.com/trigger/%s/with/key/%s" % (Keys.EventName, Keys.Key), data = data)
+	app.logger.info(text)
+	if not silent: r = requests.get("https://maker.ifttt.com/trigger/%s/with/key/%s" % (Keys.EventName, Keys.Key), data = data)
 
 	if id == 1:
+		camera_pi = Camera()
 		folder_name = time.strftime("%Y-%m-%d_%H:%M", time.localtime())
-		folder_path = dir_path + folder_name + '/'
+		folder_path = dir_path + 'imgs/' + folder_name + '/'
 		if not os.path.exists(folder_path): os.makedirs(folder_path)
 		img_list = []
+		time.sleep(1)
 		for i in range(n_pic):
 			print(i, time.time())
 			img_list.append(camera_pi.get_frame())
@@ -70,15 +78,20 @@ def AlarmSystem(id):
 			'value2': str(link),
 			'value3': '延平派出所電話：(02)25564340'
 		}
-		r = requests.get("https://maker.ifttt.com/trigger/%s/with/key/%s" % (Keys.EventName, Keys.Key), data = data)
+		if not silent: r = requests.get("https://maker.ifttt.com/trigger/%s/with/key/%s" % (Keys.EventName, Keys.Key), data = data)
 
 		# Start Upload
 		UTGD.Upload(drive, fpath=folder_path, fid=fid, n_imgs=n_pic)
 
 
-	return r.text
+	if not silent: return r.text
+	else: return 'Server at silent mode.'
 
 
 if __name__ == '__main__':
+	handler = logging.FileHandler(dir_path + 'flask.log')
+	app.logger.addHandler(handler)
+	app.logger.info('silent mode:', silent)
 	app.run(host='0.0.0.0', port=8008)
+
 
