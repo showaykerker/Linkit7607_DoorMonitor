@@ -167,6 +167,7 @@ void loop() {
 						else if (enter_word=="604") client.trig(604); // User Define Mode 604
 						else if (enter_word=="605") client.trig(605); // User Define Mode 605
 						else lcd.show_word(String("Entering:").c_str(), String("").c_str());
+						lcd.standby();
 					}
 					enter_word = "";
 				}
@@ -213,7 +214,9 @@ void loop() {
 						else if (enter_word=="804") client.trig(804); // User Define Mode 804
 						else if (enter_word=="805") client.trig(805); // User Define Mode 805
 						else lcd.show_word(String("Entering:").c_str(), String("").c_str());
+						lcd.monitoring();
 						enter_word = "";
+						
 					}
 					else{
 						enter_word += key;

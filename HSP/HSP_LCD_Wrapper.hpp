@@ -40,8 +40,7 @@ class HSP_LCD_Wrapper: public LiquidCrystal_I2C{
 			reset();
 			print("  Start Monitor!"); 
 			delay(1000);
-			reset();
-			print("Monitoring");
+			this->monitoring();
 		}
 		
 		void count_down(int t){
@@ -60,6 +59,11 @@ class HSP_LCD_Wrapper: public LiquidCrystal_I2C{
 		void standby(void){
 			reset();
 			print("Stand By.       ");
+		}
+		
+		void monitoring(void){
+			reset();
+			print("Monitoring");
 		}
 		
 		void show_word(const char *line1, const char *line2, int delay_time){
