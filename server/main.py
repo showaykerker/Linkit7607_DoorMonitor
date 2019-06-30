@@ -4,7 +4,6 @@ import UploadToGdrive as UTGD
 
 import time, os
 from flask import Flask, Response
-import logging
 import requests, socket, io
 import numpy as np
 from PIL import Image
@@ -13,11 +12,11 @@ app = Flask(__name__)
 
 # For Capturing image
 n_pic = 15
-sleep_time = 0.2
+sleep_time = 0.5
 
 dir_path = os.path.dirname(os.path.realpath(__file__)) + '/'
 
-silent = True
+silent = False
 
 '''
 def gen():
@@ -47,10 +46,9 @@ def AlarmSystem(id):
 	elif id == 2:
 		text='HSP警報已解除'
 	else:
-		return 'Hi'
+		return 'Request #%d' % id
 
 	data = {'value1': '<br>'+text} #, 'value2': 'http://youtube.com'}
-	app.logger.info(text)
 	if not silent: r = requests.get("https://maker.ifttt.com/trigger/%s/with/key/%s" % (Keys.EventName, Keys.Key), data = data)
 
 	if id == 1:
@@ -59,7 +57,7 @@ def AlarmSystem(id):
 		folder_path = dir_path + 'imgs/' + folder_name + '/'
 		if not os.path.exists(folder_path): os.makedirs(folder_path)
 		img_list = []
-		time.sleep(1)
+		time.sleep(0.5)
 		for i in range(n_pic):
 			print(i, time.time())
 			img_list.append(camera_pi.get_frame())
@@ -81,6 +79,7 @@ def AlarmSystem(id):
 
 		# Start Upload
 		UTGD.Upload(drive, fpath=folder_path, fid=fid, n_imgs=n_pic)
+		del camera_pi
 
 
 	if not silent: return r.text
@@ -88,17 +87,6 @@ def AlarmSystem(id):
 
 
 if __name__ == '__main__':
-	start_time = time.strftime("%Y-%m-%d_%H:%M", time.localtime())
-	logger_path = dir_path + 'logs/' 
-	if not os.path.exists(logger_path): os.makedirs(logger_path)
-	
-	handler = logging.FileHandler(logger_path + 'start_time.log')
-	handler.setLevel(logging.DEBUG)
-	logging_format = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
-	handler.setFormatter(logging_format)
-	app.logger.addHandler(handler)
-	app.logger.info('silent mode:', silent)
-	
 	app.run(host='0.0.0.0', port=8008)
 
 
