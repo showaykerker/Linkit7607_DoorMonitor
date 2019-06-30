@@ -10,7 +10,6 @@ import numpy as np
 from PIL import Image
 
 app = Flask(__name__)
-#camera_pi = Camera()
 
 # For Capturing image
 n_pic = 15
@@ -89,9 +88,17 @@ def AlarmSystem(id):
 
 
 if __name__ == '__main__':
-	handler = logging.FileHandler(dir_path + 'flask.log')
+	start_time = time.strftime("%Y-%m-%d_%H:%M", time.localtime())
+	logger_path = dir_path + 'logs/' 
+	if not os.path.exists(logger_path): os.makedirs(logger_path)
+	
+	handler = logging.FileHandler(logger_path + 'start_time.log')
+	handler.setLevel(logging.DEBUG)
+	logging_format = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
+	handler.setFormatter(logging_format)
 	app.logger.addHandler(handler)
 	app.logger.info('silent mode:', silent)
+	
 	app.run(host='0.0.0.0', port=8008)
 
 
