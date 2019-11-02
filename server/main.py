@@ -11,16 +11,16 @@ from PIL import Image
 app = Flask(__name__)
 
 # For Capturing image
-n_pic = 15
+n_pic = 20
 sleep_time = 0.5
 
 dir_path = os.path.dirname(os.path.realpath(__file__)) + '/'
 
 silent = False
 
-'''
+"""
 def gen():
-	"""Video streaming generator function."""
+	# Video streaming generator function.
 	while True:
 		frame = camera_pi.get_frame()
 		yield (b'--frame\r\n'
@@ -28,9 +28,10 @@ def gen():
 
 @app.route('/video_feed')
 def video_feed():
-	"""Video streaming route. Put this in the src attribute of an img tag."""
+	# Video streaming route. Put this in the src attribute of an img tag.
 	return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
-'''
+
+"""
 
 @app.route('/')
 def index():
@@ -40,9 +41,9 @@ def index():
 def AlarmSystem(id):
 	time_detected = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
 	if id == 0:
-		text='HSP已啟動'
+		text='HSP已開機'
 	elif id == 1:
-		text='HSP警報<br>偵測到大門打開，有未授權進入'
+		text='HSP警報<br>感測到大門打開'
 	elif id == 2:
 		text='HSP警報已解除'
 	else:
@@ -56,26 +57,31 @@ def AlarmSystem(id):
 		folder_name = time.strftime("%Y-%m-%d_%H:%M", time.localtime())
 		folder_path = dir_path + 'imgs/' + folder_name + '/'
 		if not os.path.exists(folder_path): os.makedirs(folder_path)
+
 		img_list = []
 		time.sleep(0.5)
 		for i in range(n_pic):
 			print(i, time.time())
 			img_list.append(camera_pi.get_frame())
 			time.sleep(sleep_time)
-		for i, frame_bytes in enumerate(img_list):
-			pic_name = '%d.jpg' % (i+1)
-			img = Image.open(io.BytesIO(frame_bytes))
-			img.save(folder_path + pic_name)
+
 
 		link, fid, drive = UTGD.GetLink(fname=folder_name)
 
 		# Send 1 more request for the link of share image.
 		data = {
-			'value1': '<br>已記錄門口照片，上傳中，請從以下連結進入查看',
+			'value1': '<br>已拍下門口照片,正在上傳到GoogleDrive<br>',
 			'value2': str(link),
 			'value3': '延平派出所電話：(02)25564340'
 		}
 		if not silent: r = requests.get("https://maker.ifttt.com/trigger/%s/with/key/%s" % (Keys.EventName, Keys.Key), data = data)
+
+
+		for i, frame_bytes in enumerate(img_list):
+			pic_name = '%d.jpg' % (i+1)
+			img = Image.open(io.BytesIO(frame_bytes))
+			img.save(folder_path + pic_name)
+
 
 		# Start Upload
 		UTGD.Upload(drive, fpath=folder_path, fid=fid, n_imgs=n_pic)
